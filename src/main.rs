@@ -1,11 +1,11 @@
 use num::{Float, One};
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Point<T, const DIM: usize> {
     dims: [T; DIM],
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Intensity<T: Float, const DIM: usize> {
     dims: [T; DIM],
 }
@@ -14,23 +14,23 @@ pub trait Posable<T: Float, const DIM: usize> {
     fn position(&self) -> &Point<T, DIM>;
 }
 
-pub trait Magable<T: Copy + Clone + Float, const DIM: usize> {
+pub trait Magable<T: Float, const DIM: usize> {
     fn mag_intensity(&self, p: Point<T, DIM>) -> Intensity<T, DIM>;
 }
 
-pub trait Electrable<T: Copy + Clone + Float, const DIM: usize> {
+pub trait Electrable<T: Float, const DIM: usize> {
     fn ele_intensity(&self, p: Point<T, DIM>) -> Intensity<T, DIM>;
 }
 
-pub trait Massable<T: Copy + Clone + Float, const DIM: usize> {
+pub trait Massable<T: Float, const DIM: usize> {
     fn mas_intensity(&self, p: Point<T, DIM>) -> T;
 }
 
-pub trait Fieldable<T: Copy + Clone + Float, const DIM: usize> {
+pub trait Fieldable<T: Float, const DIM: usize> {
     fn mas_intensity(&self, p: Point<T, DIM>) -> Intensity<T, DIM>;
 }
 
-pub trait Movable<T: Copy + Clone + Float, const DIM: usize>: Posable<T, DIM> {
+pub trait Movable<T: Float, const DIM: usize>: Posable<T, DIM> {
     fn velocity(&self) -> &Intensity<T, DIM>;
     fn acceleration(&self) -> &Intensity<T, DIM>;
 }
@@ -55,7 +55,7 @@ impl<T: Float, const DIM: usize> Posable<T, DIM> for Particle<T, DIM> {
     }
 }
 
-impl<T: Copy + Clone + Float, const DIM: usize> Movable<T, DIM> for Particle<T, DIM> {
+impl<T: Float, const DIM: usize> Movable<T, DIM> for Particle<T, DIM> {
     fn velocity(&self) -> &Intensity<T, DIM> {
         &self.vel
     }
@@ -65,19 +65,19 @@ impl<T: Copy + Clone + Float, const DIM: usize> Movable<T, DIM> for Particle<T, 
     }
 }
 
-impl<T: Copy + Clone + Float, const DIM: usize> Massable<T, DIM> for Particle<T, DIM> {
+impl<T: Float, const DIM: usize> Massable<T, DIM> for Particle<T, DIM> {
     fn mas_intensity(&self, _p: Point<T, DIM>) -> T {
         self.mass
     }
 }
 
-impl<T: Copy + Clone + Float, const DIM: usize> Electrable<T, DIM> for Particle<T, DIM> {
+impl<T: Float, const DIM: usize> Electrable<T, DIM> for Particle<T, DIM> {
     fn ele_intensity(&self, _p: Point<T, DIM>) -> Intensity<T, DIM> {
         self.elec
     }
 }
 
-impl<T: Copy + Clone + Float> Interoperable<T, T, 3> for Particle<T, 3> {
+impl<T: Float> Interoperable<T, T, 3> for Particle<T, 3> {
     fn interact(&mut self, obj: &Particle<T, 3>) {
         let sel_pos = &self.position().dims;
         let obj_pos = &obj.position().dims;
