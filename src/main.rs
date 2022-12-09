@@ -36,7 +36,7 @@ pub trait Movable<T: Copy + Clone + Float, const DIM: usize>: Posable<T, DIM> {
 }
 
 pub trait Interoperable<T: Float, TIME, const DIM: usize> {
-    fn interact(&mut self, obj: Particle<T, DIM>);
+    fn interact(&mut self, obj: &Particle<T, DIM>);
     fn update(&mut self, t: TIME);
 }
 
@@ -77,8 +77,8 @@ impl<T: Copy + Clone + Float, const DIM: usize> Electrable<T, DIM> for Particle<
     }
 }
 
-impl<T: Copy + Clone + Float> Interoperable<T, f64, 3> for Particle<T, 3> {
-    fn interact(&mut self, obj: Particle<T, 3>) {
+impl<T: Copy + Clone + Float> Interoperable<T, T, 3> for Particle<T, 3> {
+    fn interact(&mut self, obj: &Particle<T, 3>) {
         let sel_pos = &self.position().dims;
         let obj_pos = &obj.position().dims;
 
@@ -99,10 +99,30 @@ impl<T: Copy + Clone + Float> Interoperable<T, f64, 3> for Particle<T, 3> {
         self.acc = acc;
     }
 
-    fn update(&mut self, t: f64) {}
+    fn update(&mut self, t: T) {
+        let tmp_i = Intensity {
+            dims: [
+                self.vel.dims[0] + self.acc.dims[0] * t,
+                self.vel.dims[1] + self.acc.dims[1] * t,
+                self.vel.dims[2] + self.acc.dims[2] * t
+            ]
+        };
+        self.vel = tmp_i;
+
+        let tmp_i = Point {
+            dims: [
+                self.pos.dims[0] + self.vel.dims[0] * t,
+                self.pos.dims[1] + self.vel.dims[1] * t,
+                self.pos.dims[2] + self.vel.dims[2] * t
+            ]
+        };
+        self.pos = tmp_i;
+    }
 }
 
 fn main() {
+    let delta_t = 1.0;
+
     let mut p0 = Particle {
         pos: Point { dims: [1.0, 2.0, 3.0] },
         vel: Intensity { dims: [0.0, 0.0, 0.0] },
@@ -121,7 +141,17 @@ fn main() {
         mag: Intensity { dims: [0.0, 0.0, 0.0] },
     };
 
-    p0.interact(p1);
+    println!("({} {} {})", p0.position().dims[0], p0.position().dims[1], p0.position().dims[2]);
+    println!("({} {} {})", p1.position().dims[0], p1.position().dims[1], p1.position().dims[2]);
+
+    p0.interact(&p1);
+    p1.interact(&p0);
+
+    p0.update(delta_t);
+    p1.update(delta_t);
+
+    println!("({} {} {})", p0.position().dims[0], p0.position().dims[1], p0.position().dims[2]);
+    println!("({} {} {})", p1.position().dims[0], p1.position().dims[1], p1.position().dims[2]);
 
     println!("Hello, Dao!");
 }
