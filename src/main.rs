@@ -9,7 +9,7 @@ fn main() {
         Intensity::new([0.0, 0.0, 0.0]),
         20.0,
         Intensity::new([0.0, 0.0, 0.0]),
-        Intensity::new([0.0, 0.0, 0.0])
+        Intensity::new([0.0, 0.0, 0.0]),
     );
 
     let mut p1 = Particle::new(
@@ -18,7 +18,7 @@ fn main() {
         Intensity::new([0.0, 0.0, 0.0]),
         20.0,
         Intensity::new([0.0, 0.0, 0.0]),
-        Intensity::new([0.0, 0.0, 0.0])
+        Intensity::new([0.0, 0.0, 0.0]),
     );
 
     println!("({} {} {})", p0.position().get(0), p0.position().get(1), p0.position().get(2));

@@ -4,22 +4,22 @@ use dao::*;
 mod support;
 
 fn main() {
-    let delta_t = 0.1;
+    let delta_t = 0.5;
 
     let mut p0 = Particle::new(
-        Point::new([10.0, 20.0, 0.0]),
-        Intensity::new([1.0, 0.0, 0.0]),
+        Point::new([300.0, 300.0, 0.0]),
+        Intensity::new([0.0, 1.0, 0.0]),
         Intensity::new([0.0, 0.0, 0.0]),
-        2000.0,
+        200.0,
         Intensity::new([0.0, 0.0, 0.0]),
         Intensity::new([0.0, 0.0, 0.0])
     );
 
     let mut p1 = Particle::new(
-        Point::new([100.0, 100.0, 0.0]),
-        Intensity::new([0.0, 2.0, 0.0]),
+        Point::new([400.0, 300.0, 0.0]),
+        Intensity::new([0.0, -1.0, 0.0]),
         Intensity::new([0.0, 0.0, 0.0]),
-        2000.0,
+        200.0,
         Intensity::new([0.0, 0.0, 0.0]),
         Intensity::new([0.0, 0.0, 0.0])
     );
@@ -28,7 +28,7 @@ fn main() {
     let mut value = 1.0;
     system.main_loop(move |_, ui| {
         ui.window("Hello world")
-            .size([300.0, 110.0], Condition::FirstUseEver)
+            .size([800.0, 500.0], Condition::FirstUseEver)
             .build(|| {
                 let fg_draw_list = ui.get_foreground_draw_list();
 

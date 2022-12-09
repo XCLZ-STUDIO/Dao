@@ -120,9 +120,9 @@ impl<T: Float> Interoperable<T, T, 3> for Particle<T, 3> {
         let gra_acc_dlt_mod = g * obj.mas_intensity(obj.pos) / dis_2_3;
         let acc = Intensity {
             dims: [
-                self.acc.dims[0] + gra_acc_dlt_mod * (obj_pos[0] - sel_pos[0]),
-                self.acc.dims[1] + gra_acc_dlt_mod * (obj_pos[1] - sel_pos[1]),
-                self.acc.dims[2] + gra_acc_dlt_mod * (obj_pos[2] - sel_pos[2])
+                gra_acc_dlt_mod * (obj_pos[0] - sel_pos[0]),
+                gra_acc_dlt_mod * (obj_pos[1] - sel_pos[1]),
+                gra_acc_dlt_mod * (obj_pos[2] - sel_pos[2])
             ]
         };
         self.acc = acc;
