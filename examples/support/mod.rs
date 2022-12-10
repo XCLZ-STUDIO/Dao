@@ -3,7 +3,7 @@ use glium::glutin::event::{Event, WindowEvent};
 use glium::glutin::event_loop::{ControlFlow, EventLoop};
 use glium::glutin::window::WindowBuilder;
 use glium::{Display, Surface};
-use imgui::{Context, FontConfig, FontGlyphRanges, FontSource, Ui};
+use imgui::{Context, Ui};
 use imgui_glium_renderer::Renderer;
 use imgui_winit_support::{HiDpiMode, WinitPlatform};
 use std::path::Path;
