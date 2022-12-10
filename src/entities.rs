@@ -52,6 +52,12 @@ impl<T: Float, const DIM: usize> Electrable<T, DIM> for Particle<T, DIM> {
     }
 }
 
+impl<T: Float, const DIM: usize> Magable<T, DIM> for Particle<T, DIM> {
+    fn mag_intensity(&self, _p: Point<T, DIM>) -> Intensity<T, DIM> {
+        self.mag
+    }
+}
+
 impl<T: Float> Interoperable<T, T, 3> for Particle<T, 3> {
     fn interact(&mut self, obj: &Particle<T, 3>) {
         let sel_pos = self.position();
@@ -61,7 +67,7 @@ impl<T: Float> Interoperable<T, T, 3> for Particle<T, 3> {
             + (*sel_pos.get(1) - *obj_pos.get(1)).powi(2)
             + (*sel_pos.get(2) - *obj_pos.get(2)).powi(2)).sqrt().powi(3);
 
-        let mut g: T = One::one();
+        let g: T = One::one();
 
         let gra_acc_dlt_mod = g * obj.mas_intensity(obj.pos) / dis_2_3;
         let acc = Intensity::new([
