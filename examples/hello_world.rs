@@ -1,5 +1,7 @@
 use imgui::*;
-use dao::*;
+use dao::entities::Particle;
+use dao::physic_traits::{Intensity, Interoperable, Posable};
+use dao::utils::Point;
 
 mod support;
 
