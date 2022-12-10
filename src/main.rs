@@ -1,4 +1,6 @@
-use dao::*;
+use dao::entities::Particle;
+use dao::physic_traits::{Intensity, Interoperable, Posable};
+use dao::utils::Point;
 
 fn main() {
     let delta_t = 1.0;
