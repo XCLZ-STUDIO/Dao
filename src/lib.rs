@@ -118,33 +118,26 @@ impl<T: Float> Interoperable<T, T, 3> for Particle<T, 3> {
         let mut g: T = One::one();
 
         let gra_acc_dlt_mod = g * obj.mas_intensity(obj.pos) / dis_2_3;
-        let acc = Intensity {
-            dims: [
-                gra_acc_dlt_mod * (obj_pos[0] - sel_pos[0]),
-                gra_acc_dlt_mod * (obj_pos[1] - sel_pos[1]),
-                gra_acc_dlt_mod * (obj_pos[2] - sel_pos[2])
-            ]
-        };
+        let acc = Intensity::new([
+            gra_acc_dlt_mod * (obj_pos[0] - sel_pos[0]),
+            gra_acc_dlt_mod * (obj_pos[1] - sel_pos[1]),
+            gra_acc_dlt_mod * (obj_pos[2] - sel_pos[2])
+        ]);
         self.acc = acc;
     }
 
     fn update(&mut self, t: T) {
-        let tmp_i = Intensity {
-            dims: [
-                self.vel.dims[0] + self.acc.dims[0] * t,
-                self.vel.dims[1] + self.acc.dims[1] * t,
-                self.vel.dims[2] + self.acc.dims[2] * t
-            ]
-        };
-        self.vel = tmp_i;
+        self.vel = Intensity::new([
+            self.vel.dims[0] + self.acc.dims[0] * t,
+            self.vel.dims[1] + self.acc.dims[1] * t,
+            self.vel.dims[2] + self.acc.dims[2] * t
+        ]);
 
-        let tmp_i = Point {
-            dims: [
-                self.pos.dims[0] + self.vel.dims[0] * t,
-                self.pos.dims[1] + self.vel.dims[1] * t,
-                self.pos.dims[2] + self.vel.dims[2] * t
-            ]
-        };
+        let tmp_i = Point::new([
+            self.pos.dims[0] + self.vel.dims[0] * t,
+            self.pos.dims[1] + self.vel.dims[1] * t,
+            self.pos.dims[2] + self.vel.dims[2] * t
+        ]);
         self.pos = tmp_i;
     }
 }
