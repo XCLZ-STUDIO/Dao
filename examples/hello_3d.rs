@@ -32,7 +32,7 @@ fn setup(
             Point::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
-            0.5,
+            0.51,
             Intensity::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
         ), Particle::new(
@@ -97,6 +97,7 @@ fn setup(
         ..default()
     });
 
+    // commands.spawn(Camera2dBundle::default());
     commands.spawn(Camera3dBundle {
         transform: Transform::from_xyz(0., 30., 40.)
             .looking_at(Vec3::new(0., 10., 0.), Vec3::Y),
