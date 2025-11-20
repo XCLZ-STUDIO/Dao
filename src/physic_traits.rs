@@ -1,6 +1,7 @@
-use num::Float;
 use crate::entities::Particle;
 use crate::utils::Point;
+use num::Float;
+use std::ops::{Deref, DerefMut};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Intensity<T: Float, const DIM: usize> {
@@ -11,9 +12,19 @@ impl<T: Float, const DIM: usize> Intensity<T, DIM> {
     pub fn new(dims: [T; DIM]) -> Self {
         Self { dims }
     }
+}
 
-    pub fn get(&self, i: usize) -> &T {
-        &self.dims[i]
+impl<T: Float, const DIM: usize> Deref for Intensity<T, DIM> {
+    type Target = [T; DIM];
+
+    fn deref(&self) -> &Self::Target {
+        &self.dims
+    }
+}
+
+impl<T: Float, const DIM: usize> DerefMut for Intensity<T, DIM> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.dims
     }
 }
 

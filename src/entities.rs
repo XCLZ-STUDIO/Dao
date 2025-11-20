@@ -65,7 +65,7 @@ macro_rules! define_interoperable_for_dim {
                 let sel_pos = self.position();
                 let obj_pos = obj.position();
                 let dis_2_3 = ((T::zero()$(
-                    +(*sel_pos.get($indexes) - *obj_pos.get($indexes)).powi(2)
+                    +(sel_pos[$indexes] - obj_pos[$indexes]).powi(2)
                 )*)).sqrt().powi(3);
 
                 let g: T = One::one();
@@ -73,7 +73,7 @@ macro_rules! define_interoperable_for_dim {
                 let gra_acc_dlt_mod = g * obj.mas_intensity(obj.pos) / dis_2_3;
                 let acc = Intensity::new([
                     $(
-                        gra_acc_dlt_mod * (*obj_pos.get($indexes) - *sel_pos.get($indexes))
+                        gra_acc_dlt_mod * (obj_pos[$indexes] - sel_pos[$indexes])
                     ),+
                 ]);
                 self.acc = acc;
@@ -82,13 +82,13 @@ macro_rules! define_interoperable_for_dim {
             fn update(&mut self, t: T) {
                 self.vel = Intensity::new([
                     $(
-                        *self.vel.get($indexes) + *self.acc.get($indexes) * t
+                        self.vel[$indexes] + self.acc[$indexes] * t
                     ),+
                 ]);
 
                 let tmp_i = Point::new([
                     $(
-                        *self.pos.get($indexes) + *self.vel.get($indexes) * t
+                        self.pos[$indexes] + self.vel[$indexes] * t
                     ),+
                 ]);
                 self.pos = tmp_i;

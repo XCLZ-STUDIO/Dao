@@ -69,9 +69,9 @@ fn setup(
                 mesh: meshes.add(UVSphere { radius: particle.mas_intensity(Point::new([0., 0., 0.])), ..default() }.into()),
                 material: debug_material.clone(),
                 transform: Transform::from_xyz(
-                    *particle.position().get(0),
-                    *particle.position().get(1),
-                    *particle.position().get(2),
+                    particle.position()[0],
+                    particle.position()[1],
+                    particle.position()[2],
                 ),
                 ..default()
             },
@@ -114,12 +114,12 @@ fn update(mut query: Query<(&mut Transform, &mut Ball)>/*, time: Res<Time>*/) {
         ball2.0.interact(&ball1.0);
         ball1.0.update(DELTA_T);
         ball2.0.update(DELTA_T);
-        trans1.translation.x = *ball1.0.position().get(0);
-        trans1.translation.y = *ball1.0.position().get(1);
-        trans1.translation.z = *ball1.0.position().get(2);
-        trans2.translation.x = *ball2.0.position().get(0);
-        trans2.translation.y = *ball2.0.position().get(1);
-        trans2.translation.z = *ball2.0.position().get(2);
+        trans1.translation.x = ball1.0.position()[0];
+        trans1.translation.y = ball1.0.position()[1];
+        trans1.translation.z = ball1.0.position()[2];
+        trans2.translation.x = ball2.0.position()[0];
+        trans2.translation.y = ball2.0.position()[1];
+        trans2.translation.z = ball2.0.position()[2];
     }
 }
 

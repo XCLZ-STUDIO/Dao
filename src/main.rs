@@ -23,8 +23,8 @@ fn main() {
         Intensity::new([0.0, 0.0, 0.0]),
     );
 
-    println!("({} {} {})", p0.position().get(0), p0.position().get(1), p0.position().get(2));
-    println!("({} {} {})", p1.position().get(0), p1.position().get(1), p1.position().get(2));
+    println!("({} {} {})", p0.position()[0], p0.position()[1], p0.position()[2]);
+    println!("({} {} {})", p1.position()[0], p1.position()[1], p1.position()[2]);
 
     p0.interact(&p1);
     p1.interact(&p0);
@@ -32,9 +32,8 @@ fn main() {
     p0.update(delta_t);
     p1.update(delta_t);
 
-    println!("({} {} {})", p0.position().get(0), p0.position().get(1), p0.position().get(2));
-    println!("({} {} {})", p1.position().get(0), p1.position().get(1), p1.position().get(2));
+    println!("({} {} {})", p0.position()[0], p0.position()[1], p0.position()[2]);
+    println!("({} {} {})", p1.position()[0], p1.position()[1], p1.position()[2]);
 
     println!("Hello, Dao!");
 }
-
