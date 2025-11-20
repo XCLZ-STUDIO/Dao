@@ -1,15 +1,15 @@
-use std::mem::swap;
 use dao::entities::Particle;
 use dao::physic_traits::{Intensity, Interoperable, Posable};
 use dao::utils::Point;
-use itertools::{Itertools, max, min};
+use itertools::{max, min, Itertools};
+use std::mem::swap;
 
 mod support;
 
 fn main() {
     let delta_t = 0.5;
 
-    let mut particles = vec![
+    let mut particles: Vec<Particle<f64, 3>> = vec![
         Particle::new(
             Point::new([300.0, 300.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.1]),
@@ -17,21 +17,24 @@ fn main() {
             200.0,
             Intensity::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
-        ), Particle::new(
+        ),
+        Particle::new(
             Point::new([400.0, 300.0, 0.0]),
             Intensity::new([0.0, -1.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
             200.0,
             Intensity::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
-        ), Particle::new(
+        ),
+        Particle::new(
             Point::new([500.0, 300.0, 0.0]),
             Intensity::new([0.0, 1.0, -0.1]),
             Intensity::new([0.0, 0.0, 0.0]),
             200.0,
             Intensity::new([0.0, 0.0, 0.0]),
             Intensity::new([0.0, 0.0, 0.0]),
-        )];
+        ),
+    ];
 
     let system = support::init(file!());
     system.main_loop(move |_, ui| {
@@ -43,7 +46,9 @@ fn main() {
             let p1 = p0.0.last_mut().unwrap();
             let p2 = p0.1.get_mut(p_max - p_min - 1).unwrap();
 
-            if particle[0] > particle[1] { swap(p1, p2) }
+            if particle[0] > particle[1] {
+                swap(p1, p2)
+            }
 
             p1.interact(p2);
         }
@@ -53,12 +58,17 @@ fn main() {
 
         let fg_draw_list = ui.get_foreground_draw_list();
 
-        for particle in &particles {
-            let x = *particle.position().get(0) as f32;
-            let y = *particle.position().get(1) as f32;
+        for p in &particles {
+            let pos = p.position();
+            let x = pos[0] as f32;
+            let y = pos[1] as f32;
+            let z = pos[2] as f32;
+
+            let depth_factor = 1.0 / (1.0 + (z + 5.0) as f32 * 0.1);
+            let radius = 10.0 * depth_factor + 10.0;
 
             fg_draw_list
-                .add_circle([x, y], 10.0, [1.0, 0.0, 0.0])
+                .add_circle([x, y], radius, [depth_factor, 0.0, 0.0])
                 .filled(true)
                 .thickness(1.0)
                 .build();
